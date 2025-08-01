@@ -45,7 +45,7 @@ Your API should provide the following capabilities:
 ## Technical Requirements
 
 ### Technology Stack
-Our team uses mostly Python and prefers submissions in python. We also use FastAPI and Postgres and would prefer submissions to be based on this technology stack, however we would value creative and interesting ways to solve this problem that use other languages or databases.
+Our team uses mostly python and prefers that your submission is also in python. We also use FastAPI and Postgres and would prefer submissions to be based on this technology stack, however we would value creative and interesting ways to solve this problem that use other languages or databases.
 
 ### Using AI
 At Trustle we are believers in using AI effectively for all kinds of tasks including writing code. If you use AI, we want to know that you use it effectively. Please document your prompts and techniques you used along the way so that we see how you are utilizing them. 
