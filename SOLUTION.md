@@ -246,6 +246,12 @@ Manifests:
     - “Test creating an interval sleep task and assert an execution record with expected fields.”
     - “Demonstrate running tests inside Docker Compose with access to the host Docker daemon.”
 
+- **Diagrams (Mermaid)**
+  - Goal: Quickly visualize the architecture and the scheduler’s execution flow.
+  - Prompt:
+    - “Given a FastAPI service with modules api/scheduler/tasks and a Postgres DB, produce Mermaid diagrams: (1) a flowchart showing Client → FastAPI router → Scheduler thread and DB interactions, and (2) a sequence diagram for one scheduler tick: select due tasks with FOR UPDATE SKIP LOCKED, mark running, compute next_run_at, submit to executor, write Execution running/finished rows, and clear running. Use concise node labels.”
+  - I iterated by asking to rename nodes for clarity and ensure edges include ‘reads/writes’ annotations.
+
 ## Environment
 - Example env: `.env.example`. App settings in `app/config.py`.
 
