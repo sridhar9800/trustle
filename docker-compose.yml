@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: trustle
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  api:
+    build: .
+    image: trustle-task-scheduler:local
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/trustle
+      SCHEDULER_ENABLE: "true"
+      API_KEY: "changeme"
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+volumes:
+  db_data:
