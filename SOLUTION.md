@@ -46,6 +46,65 @@ Key modules:
 
 Schemas are in `app/schemas.py`. See auto docs at `/docs`.
 
+## Client usage (local, Docker, Minikube)
+Client entrypoint is `python -m app.client` in `app/client.py`. Wrapper: `scripts/client.sh`. Make target: `make client ARGS='...'`.
+
+### Local (host)
+- Env (when using Docker Compose defaults):
+```bash
+export API_URL=http://localhost:8000
+export API_KEY=changeme
+```
+
+- List tasks
+```bash
+python -m app.client list_tasks
+```
+
+- Create an interval task
+```bash
+python -m app.client create "demo-sleep" --task-type sleep --schedule interval --interval-seconds 2 --duration 1
+```
+
+- Using Makefile wrapper
+```bash
+make client ARGS='list_tasks'
+make client ARGS='create "demo-sleep" --task-type sleep --schedule interval --interval-seconds 2 --duration 1'
+```
+
+### Inside Docker (compose network)
+Prereq: stack up via `make compose-up`.
+
+- Exec into running api container
+```bash
+docker compose exec -e API_URL=http://api:8000 -e API_KEY=changeme api \
+  python -m app.client list_tasks
+```
+
+- One-off container
+```bash
+docker compose run --rm -e API_URL=http://api:8000 -e API_KEY=changeme api \
+  python -m app.client create "demo-sleep" --task-type sleep --schedule interval --interval-seconds 2 --duration 1
+```
+
+### Against Minikube
+Get the service URL (keep the command running or capture it once):
+```bash
+URL=$(minikube service -n trustle task-scheduler --url | tail -n1)
+export API_URL="$URL"
+export API_KEY=changeme
+python -m app.client list_tasks
+```
+
+Alternative (port-forward to localhost):
+```bash
+kubectl -n trustle port-forward svc/task-scheduler 8000:8000
+# in another terminal
+export API_URL=http://localhost:8000
+export API_KEY=changeme
+python -m app.client list_tasks
+```
+
 ### Using the endpoints in Docker (docker-compose)
 Once the stack is up (`make compose-up` or `bash scripts/compose-up.sh`), the API is at `http://localhost:8000` and the default API key is `changeme` (see `docker-compose.yml`).
 
